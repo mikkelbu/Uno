@@ -4,11 +4,6 @@ namespace Windows.UI.ViewManagement
 {
 	public  partial class UISettings 
 	{
-		public UISettings()
-		{
-		}
-
-		[global::Uno.NotImplemented]
-		public bool AnimationsEnabled => false;
+		
 	}
 }
