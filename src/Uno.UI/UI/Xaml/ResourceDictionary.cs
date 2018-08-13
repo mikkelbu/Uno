@@ -9,6 +9,7 @@ namespace Windows.UI.Xaml
 	public partial class ResourceDictionary : DependencyObject
 	{
 		private Dictionary<object, object> _values = new Dictionary<object, object>();
+		private bool _isResolving = false;
 
 		public ResourceDictionary()
 		{
@@ -66,7 +67,18 @@ namespace Windows.UI.Xaml
 		{
 			if (!_values.TryGetValue(key, out value))
 			{
-				value = DefaultResolver?.Invoke(key.ToString());
+				try
+				{
+					if (!_isResolving)
+					{
+						_isResolving = true;
+						value = DefaultResolver?.Invoke(key.ToString());
+					}
+				}
+				finally
+				{
+					_isResolving = false;
+				}
 
 				return value != null;
 			}
